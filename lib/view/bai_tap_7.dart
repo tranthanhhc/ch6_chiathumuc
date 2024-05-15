@@ -54,12 +54,11 @@ class _InputNumber7State extends State<InputNumber7> {
                   // Kiểm tra n có nằm trong khoảng từ 1 đến 99999999999999999999 không
                   if (n > 0) {
                     Alert.showLoading(context);
-                    Future.delayed(const Duration(seconds: 1), () {
-                      String result = baigiai7(n);
+                    baigiai7(n).then((value) {
                       // ẩn loading
                       Navigator.of(context).pop();
                       //hiển thị kết quả
-                      Alert.showStringResult(context,result);
+                      Alert.showStringResult(context,value);
                     });
                   } else {
                     setState(() {
@@ -79,9 +78,8 @@ class _InputNumber7State extends State<InputNumber7> {
       ),
     );
   }
-
 }
-String baigiai7(int n) {
+Future<String> baigiai7(int n) async {
 
   // Hàm kiểm tra số có chia hết cho 3 không
   bool chiaHetCho3(int number) {
@@ -135,7 +133,6 @@ String baigiai7(int n) {
     return 'Số lượng số chia hết cho 3 trong tập D: $demChiaHetCho3\n'
         'Chi tiết các số : ${rs.substring(0, rs.length)}';
   }
-
   // Gọi hàm tạo tập D
   return createSetD(n);
 }

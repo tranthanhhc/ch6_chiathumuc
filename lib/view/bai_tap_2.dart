@@ -44,13 +44,11 @@ class _Bai2State extends State<Bai2> {
                 } else {
                   Alert.showLoading(context);
                   // set 1 giây sau hiển thị kết quả
-                  Future.delayed(const Duration(seconds: 1), () {
-                    String result = baigiai2(a, b);
-                    // ẩn loading
-                    Navigator.of(context).pop();
-                    //hiển thị kết quả
-                    Alert.showStringResult(context,result);
-                  });
+                    baigiai2(a, b).then((value) {
+                      Navigator.of(context).pop();
+                      //hiển thị kết quả
+                      Alert.showStringResult(context,value);
+                    });
                 }
               },
               child: const Text('Tính toán '),
@@ -61,7 +59,7 @@ class _Bai2State extends State<Bai2> {
     );
   }
 }
-String baigiai2( int a, int b) {
+Future<String> baigiai2( int a, int b) async {
   int count = 0;
   int sum = 0;
   String rs = '';

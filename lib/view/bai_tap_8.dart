@@ -33,6 +33,36 @@ class _InputNumber8State extends State<InputNumber8> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                  style: const TextStyle(color: Colors.lightBlueAccent,fontSize: 28),
+                  children: [
+                    const TextSpan(
+                      text:'Mảng nhập A vào \n',
+                    ),
+                    TextSpan(
+                      text: AL.toString(),
+                      style: const TextStyle(color: Colors.deepOrange,fontStyle: FontStyle.italic,),
+                    ),
+                  ]
+              ),
+            ),
+            RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                  style: const TextStyle(color: Colors.lightBlueAccent,fontSize: 28),
+                  children: [
+                    const TextSpan(
+                      text:'Mảng nhập B vào \n',
+                    ),
+                    TextSpan(
+                      text: BL.toString(),
+                      style: const TextStyle(color: Colors.deepOrange,fontStyle: FontStyle.italic,),
+                    ),
+                  ]
+              ),
+            ),
             TextFormField(
               controller: _controllerA,
               keyboardType: TextInputType.number,
@@ -91,17 +121,15 @@ class _InputNumber8State extends State<InputNumber8> {
       return;
     } else {
       Alert.showLoading(context);
-      Future.delayed(const Duration(seconds: 2), () {
-        final result = baigiai8(AL, BL);
+      baigiai8(AL, BL).then((value) {
         Navigator.of(context).pop();
-        Alert.showStringResult(context,result);
+        Alert.showStringResult(context,value);
       });
-
     }
   }
 
 }
-String baigiai8(List<int> chiSoDien,List<int> giaDien ) {
+Future<String> baigiai8(List<int> chiSoDien,List<int> giaDien ) async {
 
   int X1 = chiSoDien[0];
   int Y1 = chiSoDien[1];

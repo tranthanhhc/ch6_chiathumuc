@@ -25,19 +25,16 @@ class _Bai1State extends State<Bai1> {
           ),
           const Padding(padding: EdgeInsets.all(16.0),),
           ElevatedButton(
-            onPressed: () {
+            onPressed: ()  {
               String input = controller.text;
               int? n = int.tryParse(input);
               if(n != null) {
                 // hiện loading
                 Alert.showLoading(context);
                 // set 1 giây sau hiển thị kết quả
-                Future.delayed(const Duration(seconds: 1), () {
-                  int result = baigiai1(n);
-                  // ẩn loading
+               baigiai1(n).then((value) {
                   Navigator.of(context).pop();
-                  //hiển thị kết quả
-                  Alert.showIntResult(context,result);
+                  Alert.showIntResult(context,value);
                 });
               }
               else {
@@ -55,7 +52,7 @@ class _Bai1State extends State<Bai1> {
 
 
 }
-int baigiai1(int n) {
+Future<int> baigiai1(int n) async {
   // Hàm decode để tìm số M từ số N
   int decode(int n) {
     String nStr = n.toString(); // Chuyển số n thành chuỗi

@@ -53,12 +53,10 @@ class _InputNumber6State extends State<InputNumber6> {
                   Alert.showErrorDialog(context, 'Sai điều kiện , mời nhập lại');
                 } else {
                   Alert.showLoading(context);
-                  Future.delayed(const Duration(seconds: 1), () {
-                    String result = baigiai6(a, b);
-                    // ẩn loading
+                  baigiai6(a, b).then((value) {
                     Navigator.of(context).pop();
                     //hiển thị kết quả
-                    Alert.showStringResult(context,result);
+                    Alert.showStringResult(context,value);
                   });
                 }
               },
@@ -71,7 +69,7 @@ class _InputNumber6State extends State<InputNumber6> {
   }
 
 }
-String baigiai6(int A, int B) {
+Future<String> baigiai6(int A, int B) async {
   // Hàm kiểm tra số nguyên tố
   bool ktnguyento(int n) {
     // ít hơn 2 phần tử thì không phải snt

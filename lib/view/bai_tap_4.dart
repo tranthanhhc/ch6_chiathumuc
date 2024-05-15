@@ -39,15 +39,12 @@ class _InputNumbers2State extends State<InputNumbers2> {
                   const TextSpan(
                     text:'Mảng nhập vào \n',
                   ),
-
                   TextSpan(
                     text: dis.toString(),
                     style: const TextStyle(color: Colors.deepOrange,fontStyle: FontStyle.italic,),
-
                   ),
                 ]
             ),
-
           ),
           TextFormField(
             controller: _nController,
@@ -71,12 +68,12 @@ class _InputNumbers2State extends State<InputNumbers2> {
               if( n > 1 && n < 106) {
                 Alert.showLoading(context);
                 Future.delayed(const Duration(seconds: 1), () {
-                  String result = baigiai4(n, dis);
+                baigiai4(n, dis).then((value) {
                   // ẩn loading
                   Navigator.of(context).pop();
                   //hiển thị kết quả
-                  Alert.showStringResult(context,result);
-
+                  Alert.showStringResult(context,value);
+                });
                 });
               } else {
                 Alert.showErrorDialog(context, 'Sai điều kiện , mời nhập lại');
@@ -108,6 +105,7 @@ class _InputNumbers2State extends State<InputNumbers2> {
         });
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
+              duration: const Duration(milliseconds: 500),
               content: Text('Số $time đã được thêm vào danh sách.'),
             )
         );
@@ -115,7 +113,7 @@ class _InputNumbers2State extends State<InputNumbers2> {
     }
   }
 }
-String baigiai4(int n,List<int> distances) {
+Future<String> baigiai4(int n,List<int> distances) async{
   // sắp xếp theo thú tự tăng dần
   distances.sort();
 

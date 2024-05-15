@@ -32,6 +32,21 @@ class _InputNumers3State extends State<InputNumers3> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+                style: const TextStyle(color: Colors.lightBlueAccent,fontSize: 28),
+                children: [
+                  const TextSpan(
+                    text:'Mảng nhập vào \n',
+                  ),
+                  TextSpan(
+                    text: competitions.toString(),
+                    style: const TextStyle(color: Colors.deepOrange,fontStyle: FontStyle.italic,),
+                  ),
+                ]
+            ),
+          ),
           TextFormField(
             controller: _nController,
             decoration: const InputDecoration(labelText: 'Nhập N (số lượng cuộc thi)'),
@@ -67,7 +82,7 @@ class _InputNumers3State extends State<InputNumers3> {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('Số $time sai điều kiện ( >0 và <70000.'),
-              duration: const Duration(seconds: 1),
+              duration: const Duration(milliseconds: 500),
             )
         );
         isValid = false;
@@ -80,7 +95,7 @@ class _InputNumers3State extends State<InputNumers3> {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('Số $time đã được thêm vào danh sách.'),
-              duration: const Duration(seconds: 1),
+              duration: const Duration(milliseconds: 500),
 
             )
         );
@@ -98,11 +113,9 @@ class _InputNumers3State extends State<InputNumers3> {
       return;
     }
     Alert.showLoading(context);
-    Future.delayed(const Duration(seconds: 1), () {
-      final result = baigiai5(N, competitions);
+    baigiai5(N, competitions).then((value) {
       Navigator.of(context).pop();
-      Alert.showStringResult(context,result);
-
+      Alert.showStringResult(context,value);
     });
   }
   void _showErrorMessage(String title, String message) {
@@ -126,7 +139,7 @@ class _InputNumers3State extends State<InputNumers3> {
   }
 
 }
-String baigiai5 ( int N,List<List<int>> competitions )  {
+Future<String> baigiai5 ( int N,List<List<int>> competitions ) async {
   // Số lượng cuộc thi cứng là 5
 
   // Thời gian bắt đầu và kết thúc của mỗi cuộc thi

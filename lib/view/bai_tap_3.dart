@@ -47,11 +47,9 @@ class _InputNumbersState extends State<InputNumbers> {
                 TextSpan(
                   text: numbers.toString(),
                   style: const TextStyle(color: Colors.deepOrange,fontStyle: FontStyle.italic,),
-
                 ),
               ]
             ),
-
           ),
           TextFormField(
             // //onChanged: (v) {
@@ -70,16 +68,9 @@ class _InputNumbersState extends State<InputNumbers> {
           ElevatedButton(
             onPressed: () {
               Alert.showLoading(context);
-              Future.delayed(const Duration(seconds: 1), () {
-                //numbers = inputList.split(' ').map((string) => int.parse(string)).toList();
-                String result = baigiai3(numbers);
-                // ẩn loading
-                Navigator.of(context).pop();
-                //hiển thị kết quả
-                Alert.showStringResult(context,result);
-                setState(() {
-                  numbers.clear();
-                });
+              baigiai3(numbers).then((value) {
+              Navigator.of(context).pop();
+                Alert.showStringResult(context, value);
               });
             },
             child: const Text('Tính Toán'),),
@@ -89,8 +80,8 @@ class _InputNumbersState extends State<InputNumbers> {
     );
   }
   void _addCompetition() {
-    final controllerText = _controller.text.trim();
-    int? n = int.tryParse(controllerText);
+    final controllerText = _controller.text.split(',').map(int.parse);
+    int? n = int.tryParse(controllerText as String);
     if (n != null && numbers.length < maxNums) {
       setState(() {
         numbers.add(n);
@@ -98,6 +89,7 @@ class _InputNumbersState extends State<InputNumbers> {
       });
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
+            duration: const Duration(milliseconds: 500),
             content: Text('Số $n đã được thêm vào danh sách.'),
           )
       );
@@ -106,7 +98,7 @@ class _InputNumbersState extends State<InputNumbers> {
     }
   }
 }
-String baigiai3(List<int> numbers) {
+Future<String> baigiai3(List<int> numbers) async {
   // Hàm tính giai thừa của một số
   int giaithua(int n) {
     if (n == 0 || n == 1) {
